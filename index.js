@@ -4,10 +4,9 @@ const mongoose = require('mongoose')
 const cookieSession = require('cookie-session')
 const passport = require('passport')
 const keys = require('./config/keys')
-const authRoutes = require('./routes/authRoutes')
 const bodyParser = require('body-parser')
-const billingRoutes = require('./routes/billingRoutes')
 require('./models/User')
+require('./models/Survey')
 app.use(bodyParser.json())
 app.use(cookieSession({
     maxAge: 30*24*60*60*1000 ,// 30 days
@@ -22,8 +21,9 @@ require('./services/passport')
 
 const PORT = process.env.PORT || 5000
 
-authRoutes(app)
-billingRoutes(app)
+require('./routes/authRoutes')(app)
+require('./routes/billingRoutes')(app)
+require('./routes/surveyRoutes')(app)
 
 if(process.env.NODE_ENV ==='production'){
     app.use(express.static('client/build'))
@@ -35,3 +35,5 @@ if(process.env.NODE_ENV ==='production'){
 app.listen(PORT,() =>{
     console.log('app running on 5000')
 })
+
+
