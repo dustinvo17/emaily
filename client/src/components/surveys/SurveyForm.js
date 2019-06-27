@@ -47,8 +47,11 @@ function validate(values){
         }
 
     })
-    if(values.emails){
+    if(values.recipients){
         errors.recipients = validateEmails(values.recipients)
+    }
+    if(values.from){
+        errors.from = validateEmails(values.from)
     }
    
     

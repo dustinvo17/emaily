@@ -6,7 +6,7 @@ import Landing from './Landing'
 import Dashboard from './Dashboard'
 import SurveyNew from './surveys/SurveyNew'
 import * as actions from '../actions'
-
+import history from '../history';
 
 class App extends React.Component {
     componentDidMount(){
@@ -14,10 +14,10 @@ class App extends React.Component {
     }
     render(){
         return(
-            <div className="container">
-                <Router>
+            <div >
+                <Router history={history}>
                     <Header/>
-                    <div>
+                    <div className="container">
                         
                         <Route path='/' exact component={Landing} />
                         <Route path='/surveys' exact component={Dashboard}/>

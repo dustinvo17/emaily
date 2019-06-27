@@ -8,6 +8,17 @@ const Mailer = require('../services/Mailer')
 const Survey = mongoose.model('surveys')
 const surveyTemplate = require('../services/emailTemplate/surveyTemplate')
 module.exports = app => {
+    app.post('/api/surveys/delete',requireLogin, async (req,res) =>{
+        const { userId,surveyId } = req.body
+        await Survey.deleteOne({_user:userId,_id:surveyId
+            
+        }).exec()
+        const surveys = await Survey.find({_user:userId}).select({recipients:false})
+        if(surveys){
+            res.send(surveys)
+        }
+       
+    })
     app.get('/api/surveys/:surveyId/:choice',(req,res)=>{
         res.send('Thank you for voting!')
     })
@@ -48,12 +59,13 @@ module.exports = app => {
        
     })
     app.post('/api/surveys',requireLogin,checkCredit,async (req,res)=>{
-        const {title,subject,body,recipients} = req.body
+        const {title,subject,body,recipients,from} = req.body
         const survey = new Survey({
             title,
             subject,
             body,
             recipients:recipients.split(',').map(email => {return {email:email.trim()}}),
+            from,
             _user:req.user.id,
             dateSent:Date.now()
 

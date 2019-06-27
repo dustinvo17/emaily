@@ -3,4 +3,5 @@ export default  [
     {name:'subject', label:"Subject Line"},
     {name:'body', label:"Content"},
     {name:'recipients', label:"Recipient List"},
+    {name:'from' ,label:"From Address"}
 ]
